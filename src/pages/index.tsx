@@ -1,3 +1,4 @@
+import { da } from 'date-fns/locale';
 import { GetStaticProps, NextPage } from 'next';
 import { RichText } from 'prismic-dom';
 
@@ -25,7 +26,7 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export const Home: NextPage<HomeProps> = ({ postsPagination }) => {
+const Home: NextPage<HomeProps> = ({ postsPagination }) => {
   return <h1>Home</h1>;
 };
 
@@ -38,7 +39,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { results, next_page } = postsResponse;
 
-  console.log({ results });
+  console.log(JSON.stringify(results, null, 2));
 
   results.map(result => {
     return {
@@ -65,3 +66,5 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
+
+export default Home;
