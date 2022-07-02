@@ -1,3 +1,4 @@
+import { PrismicProvider } from '@prismicio/react';
 import { AppProps } from 'next/app';
 import '../styles/globals.scss';
 

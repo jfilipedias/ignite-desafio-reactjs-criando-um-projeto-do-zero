@@ -1,4 +1,5 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, NextPage } from 'next';
+import { RichText } from 'prismic-dom';
 
 import { getPrismicClient } from '../services/prismic';
 
@@ -24,13 +25,43 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-// export default function Home() {
-//   // TODO
-// }
+export const Home: NextPage<HomeProps> = ({ postsPagination }) => {
+  return <h1>Home</h1>;
+};
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient({});
-//   // const postsResponse = await prismic.getByType(TODO);
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient({});
+  const postsResponse = await prismic.getByType('post', {
+    fetch: ['post.title', 'post.subtitle', 'post.author', 'post.content'],
+    pageSize: 1,
+  });
 
-//   // TODO
-// };
+  const { results, next_page } = postsResponse;
+
+  console.log({ results });
+
+  results.map(result => {
+    return {
+      uid: result.uid,
+      first_publication_date: new Date(
+        result.last_publication_date
+      ).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }),
+      data: {
+        title: result.data.title,
+        subtitle: result.data.subtitle,
+        author: result.data.author,
+      },
+    };
+  });
+
+  return {
+    props: {
+      results,
+      next_page,
+    },
+  };
+};
