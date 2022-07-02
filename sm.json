@@ -1,0 +1,7 @@
+{
+  "_latest": "0.4.0",
+  "apiEndpoint": "https://filipe-spacetraveling.prismic.io/api/v2",
+  "libraries": [
+    "@/slices"
+  ]
+}

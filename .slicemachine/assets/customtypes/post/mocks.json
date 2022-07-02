@@ -1,0 +1,51 @@
+{
+  "id": "3f39da88-c2b5-49bc-9c82-a069a38228e5",
+  "uid": "doloremque-esse-numquam",
+  "type": "post",
+  "data": {
+    "title": "incubate B2B e-business",
+    "subtitle": "whiteboard collaborative web services",
+    "author": "streamline dynamic infomediaries",
+    "banner": {
+      "dimensions": {
+        "width": 900,
+        "height": 500
+      },
+      "alt": "Placeholder image",
+      "copyright": null,
+      "url": "https://images.unsplash.com/photo-1587905069134-008460d7a636?w=900&h=500&fit=crop"
+    },
+    "content": [
+      {
+        "heading": "extend clicks-and-mortar blockchains",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Fugiat ut deserunt ea pariatur ipsum reprehenderit incididunt.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "heading": "morph world-class initiatives",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Commodo elit aute anim proident nisi laboris tempor officia ut magna est. Reprehenderit pariatur voluptate sint nostrud eu qui anim sunt enim aliqua. Ad proident amet officia mollit exercitation elit.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "heading": "engage cross-platform blockchains",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Do aute culpa non enim irure mollit pariatur anim. Excepteur cupidatat tempor exercitation incididunt culpa laborum cillum commodo anim veniam. Fugiat incididunt ea id ea labore sunt enim exercitation non magna ex laboris Lorem.",
+            "spans": []
+          }
+        ]
+      }
+    ]
+  }
+}
