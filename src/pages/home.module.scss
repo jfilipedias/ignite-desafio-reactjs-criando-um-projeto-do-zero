@@ -1,1 +1,54 @@
-// TODO
+.posts {
+  max-width: 700px;
+  margin-top: 24px;
+
+  a {
+    display: block;
+
+    & + a {
+      margin-top: 48px;
+    }
+
+    strong {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gray-100);
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--gray-200);
+    }
+  }
+}
+
+.postDetails {
+  display: flex;
+  margin-top: 24px;
+  align-items: center;
+  color: var(--gray-300);
+
+  div {
+    & + div {
+      margin-left: 24px;
+    }
+
+    time,
+    span {
+      margin-left: 8px;
+      font-size: 14px;
+    }
+  }
+}
+
+.loadMore {
+  margin-top: 64px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: var(--pink-500);
+  background: transparent;
+  border: 0;
+}

@@ -1,6 +1,9 @@
-import { da } from 'date-fns/locale';
 import { GetStaticProps, NextPage } from 'next';
-import { RichText } from 'prismic-dom';
+import Head from 'next/head';
+import Link from 'next/link';
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 
 import { getPrismicClient } from '../services/prismic';
 
@@ -26,8 +29,49 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-const Home: NextPage<HomeProps> = ({ postsPagination }) => {
-  return <h1>Home</h1>;
+const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
+  return (
+    <>
+      <Head>
+        <title>Posts | spacetraveling</title>
+      </Head>
+      <main className={commonStyles.container}>
+        <div className={styles.posts}>
+          {postsPagination.results.map(post => (
+            <Link key={post.uid} href={`/posts/${post.uid}`}>
+              <a>
+                <strong>{post.data.title}</strong>
+                <p>{post.data.subtitle}</p>
+                <div className={styles.postDetails}>
+                  <div>
+                    <FiCalendar />
+                    <time>
+                      {format(
+                        new Date(post.first_publication_date),
+                        'dd MMM yyyy',
+                        {
+                          locale: ptBR,
+                        }
+                      )}
+                    </time>
+                  </div>
+
+                  <div>
+                    <FiUser />
+                    <span>{post.data.author}</span>
+                  </div>
+                </div>
+              </a>
+            </Link>
+          ))}
+        </div>
+
+        <button type="button" className={styles.loadMore}>
+          Carregar mais posts
+        </button>
+      </main>
+    </>
+  );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -37,20 +81,12 @@ export const getStaticProps: GetStaticProps = async () => {
     pageSize: 1,
   });
 
-  const { results, next_page } = postsResponse;
-
-  console.log(JSON.stringify(results, null, 2));
+  const { next_page, results } = postsResponse;
 
   results.map(result => {
     return {
       uid: result.uid,
-      first_publication_date: new Date(
-        result.last_publication_date
-      ).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      }),
+      first_publication_date: result.first_publication_date,
       data: {
         title: result.data.title,
         subtitle: result.data.subtitle,
@@ -61,8 +97,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      results,
-      next_page,
+      postsPagination: {
+        next_page,
+        results,
+      },
     },
   };
 };
