@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -30,6 +31,47 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
+  const formattedPosts = postsPagination.results.map(post => {
+    return {
+      ...post,
+      first_publication_date: format(
+        new Date(post.first_publication_date),
+        'dd MMM yyyy',
+        {
+          locale: ptBR,
+        }
+      ),
+    };
+  });
+
+  const [posts, setPosts] = useState<Post[]>(formattedPosts);
+  const [nextPage, setNextPage] = useState<string>(postsPagination.next_page);
+
+  async function handleLoadMore(): Promise<void> {
+    const postsResponse = await fetch(nextPage).then(res => res.json());
+
+    const newPosts = postsResponse.results.map(result => {
+      return {
+        uid: result.uid,
+        first_publication_date: format(
+          new Date(result.first_publication_date),
+          'dd MMM yyyy',
+          {
+            locale: ptBR,
+          }
+        ),
+        data: {
+          title: result.data.title,
+          subtitle: result.data.subtitle,
+          author: result.data.author,
+        },
+      };
+    });
+
+    setNextPage(postsResponse.next_page);
+    setPosts([...posts, ...newPosts]);
+  }
+
   return (
     <>
       <Head>
@@ -37,7 +79,7 @@ const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
       </Head>
       <main className={commonStyles.container}>
         <div className={styles.posts}>
-          {postsPagination.results.map(post => (
+          {posts.map(post => (
             <Link key={post.uid} href={`/posts/${post.uid}`}>
               <a>
                 <strong>{post.data.title}</strong>
@@ -45,15 +87,7 @@ const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
                 <div className={styles.postDetails}>
                   <div>
                     <FiCalendar />
-                    <time>
-                      {format(
-                        new Date(post.first_publication_date),
-                        'dd MMM yyyy',
-                        {
-                          locale: ptBR,
-                        }
-                      )}
-                    </time>
+                    <time>{post.first_publication_date}</time>
                   </div>
 
                   <div>
@@ -66,9 +100,15 @@ const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
           ))}
         </div>
 
-        <button type="button" className={styles.loadMore}>
-          Carregar mais posts
-        </button>
+        {!!nextPage && (
+          <button
+            className={styles.nextPage}
+            type="button"
+            onClick={handleLoadMore}
+          >
+            Carregar mais posts
+          </button>
+        )}
       </main>
     </>
   );
