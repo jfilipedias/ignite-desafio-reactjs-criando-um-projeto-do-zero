@@ -80,7 +80,7 @@ const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
       <main className={commonStyles.container}>
         <div className={styles.posts}>
           {posts.map(post => (
-            <Link key={post.uid} href={`/posts/${post.uid}`}>
+            <Link key={post.uid} href={`/post/${post.uid}`}>
               <a>
                 <strong>{post.data.title}</strong>
                 <p>{post.data.subtitle}</p>
@@ -117,7 +117,7 @@ const Home: NextPage<HomeProps> = ({ postsPagination }: HomeProps) => {
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient({});
   const postsResponse = await prismic.getByType('post', {
-    fetch: ['post.title', 'post.subtitle', 'post.author', 'post.content'],
+    fetch: ['post.title', 'post.subtitle', 'post.author'],
     pageSize: 1,
   });
 
