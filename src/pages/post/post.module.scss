@@ -18,6 +18,8 @@
   color: var(--gray-300);
 
   div {
+    display: flex;
+
     & + div {
       margin-left: 24px;
     }
